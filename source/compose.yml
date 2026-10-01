@@ -1,0 +1,12 @@
+services:
+
+  main-api:
+    image: fastapp
+
+  ns-api:
+    image: source/ns-api
+
+  gcloud:
+    image: gcr.io/google.com/cloudsdkto:573.0.0-stable
+    stdin_open: true
+    tty: true
