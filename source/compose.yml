@@ -6,6 +6,9 @@ services:
   ns-api:
     image: source/ns-api
 
+  proton-service:
+    image:
+
   gcloud:
     image: gcr.io/google.com/cloudsdkto:573.0.0-stable
     stdin_open: true

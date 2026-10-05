@@ -26,6 +26,7 @@ class User(Base):
     phone_number: Mapped[String] = mapped_column()
 
 
+
 class Document:
     pass
 
@@ -34,3 +35,7 @@ class TrainResponse():
     __tablename__ = "Trains"
     train_id: Mapped[int] = mapped_column(primary_key=True)
     train_name: Mapped[String] = mapped_column()
+
+
+class MailResponse():
+    __tablename__ = "Mail"

@@ -26,3 +26,7 @@ def create_user(db:Session, name:str, phone_number:str) -> User:
 
 def get_train_schedule(db:Session) -> TrainResponse:
     pass
+
+
+def get_mail(db:Session) -> MailResponse:
+    pass

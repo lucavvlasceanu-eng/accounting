@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sign in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #eef1f6; --panel: #ffffff; --ink: #14213d; --muted: #5b6678;
+  --line: #cfd6e2; --accent: #2f5bea; --accent-ink: #ffffff; --danger: #c0262d;
+  --side: #14213d; --side-ink: #e8ecf5;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1424; --panel: #161e33; --ink: #e8ecf5; --muted: #98a3b8;
+    --line: #2d3856; --accent: #7b9bff; --accent-ink: #0e1424; --danger: #ff8a8f;
+    --side: #0a0f1c; --side-ink: #e8ecf5;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1424; --panel: #161e33; --ink: #e8ecf5; --muted: #98a3b8;
+  --line: #2d3856; --accent: #7b9bff; --accent-ink: #0e1424; --danger: #ff8a8f;
+  --side: #0a0f1c; --side-ink: #e8ecf5;
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0; min-height: 100%; background: var(--bg); color: var(--ink);
+  font-family: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5; display: grid; grid-template-columns: 1fr 1fr;
+}
+.side {
+  background: var(--side); color: var(--side-ink); padding: 56px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.brand { font-weight: 700; font-size: 1.25rem; letter-spacing: -0.01em; }
+.side h2 { font-size: clamp(2rem, 3.4vw, 3.1rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 16px; max-width: 14ch; }
+.side p { margin: 0; color: #a9b4cc; max-width: 36ch; }
+main { display: flex; align-items: center; justify-content: center; padding: 32px 20px; }
+.card { width: 100%; max-width: 380px; }
+h1 { font-size: 1.75rem; letter-spacing: -0.02em; margin: 0 0 6px; }
+.sub { margin: 0 0 28px; color: var(--muted); }
+.field { margin-bottom: 18px; }
+label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; }
+.input-wrap { position: relative; }
+input[type="email"], input[type="password"], input[type="text"] {
+  width: 100%; font: inherit; color: var(--ink); background: var(--panel);
+  border: 1.5px solid var(--line); border-radius: 8px; padding: 12px 14px;
+}
+input::placeholder { color: var(--muted); opacity: 0.7; }
+input:focus-visible, button:focus-visible, a:focus-visible, .check input:focus-visible + .box {
+  outline: 3px solid var(--accent); outline-offset: 2px;
+}
+input[aria-invalid="true"] { border-color: var(--danger); }
+.toggle {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  background: none; border: 0; font: inherit; font-size: 0.85rem; font-weight: 600;
+  color: var(--accent); padding: 6px 8px; border-radius: 6px; cursor: pointer;
+}
+.err { color: var(--danger); font-size: 0.85rem; margin: 6px 0 0; min-height: 0; }
+.err:empty { display: none; }
+.row { display: flex; justify-content: space-between; align-items: center; margin: 4px 0 24px; gap: 12px; flex-wrap: wrap; }
+.check { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer; margin: 0; font-weight: 500; }
+.check input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.check .box {
+  width: 18px; height: 18px; border: 1.5px solid var(--line); border-radius: 5px;
+  background: var(--panel); display: grid; place-items: center;
+}
+.check input:checked + .box { background: var(--accent); border-color: var(--accent); }
+.check input:checked + .box::after {
+  content: ""; width: 5px; height: 9px; border: solid var(--accent-ink);
+  border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px, -1px);
+}
+a { color: var(--accent); font-weight: 600; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.submit {
+  width: 100%; font: inherit; font-weight: 600; background: var(--accent); color: var(--accent-ink);
+  border: 0; border-radius: 8px; padding: 13px; cursor: pointer;
+}
+.submit:hover { filter: brightness(1.08); }
+.submit[disabled] { opacity: 0.6; cursor: progress; }
+.status { margin: 16px 0 0; font-size: 0.9rem; text-align: center; min-height: 1.4em; }
+.status.ok { color: var(--accent); font-weight: 600; }
+.foot { margin: 28px 0 0; text-align: center; color: var(--muted); font-size: 0.9rem; }
+@media (max-width: 820px) {
+  body { grid-template-columns: 1fr; }
+  .side { padding: 28px 24px; gap: 20px; }
+  .side h2 { font-size: 1.6rem; max-width: none; }
+  .side p { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<aside class="side">
+  <div class="brand">Victor Work Support</div>
+  <div>
+    <p>Sign in to see your projects, recent activity and saved settings.</p>
+  </div>
+</aside>
+
+<main>
+  <div class="card">
+    <h1>Sign in</h1>
+    <p class="sub">Use the email address you registered with.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="email" placeholder="you@example.com" aria-describedby="email-err" required>
+        <p class="err" id="email-err" role="alert"></p>
+      </div>
+
+      <div class="field">
+
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <input id="password" type="password" autocomplete="current-password" placeholder="At least 8 characters" aria-describedby="pw-err" required>
+          <button type="button" class="toggle" id="toggle" aria-controls="password" aria-pressed="false">Show</button>
+        </div>
+        <p class="err" id="pw-err" role="alert"></p>
+      </div>
+
+      <div class="row">
+        <label class="check"><input type="checkbox" id="remember"><span class="box"></span>Keep me signed in</label>
+        <a href="#">Reset password</a>
+      </div>
+
+      <button class="submit" id="submit" type="submit">Sign in</button>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </form>
+
+    <p class="foot">New here? <a href="#">Create an account</a></p>
+  </div>
+</main>
+
+<script>
+(function () {
+  var form = document.getElementById('form');
+  var email = document.getElementById('email');
+  var pw = document.getElementById('password');
+  var emailErr = document.getElementById('email-err');
+  var pwErr = document.getElementById('pw-err');
+  var status = document.getElementById('status');
+  var btn = document.getElementById('submit');
+  var toggle = document.getElementById('toggle');
+
+  toggle.addEventListener('click', function () {
+    var show = pw.type === 'password';
+    pw.type = show ? 'text' : 'password';
+    toggle.textContent = show ? 'Hide' : 'Show';
+    toggle.setAttribute('aria-pressed', String(show));
+  });
+
+  function setError(input, el, msg) {
+    el.textContent = msg;
+    if (msg) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid');
+  }
+
+  function validate() {
+    var ok = true;
+    var e = email.value.trim();
+    if (!e) { setError(email, emailErr, 'Enter your email address.'); ok = false; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) { setError(email, emailErr, 'Enter a valid email, like name@example.com.'); ok = false; }
+    else setError(email, emailErr, '');
+
+    if (!pw.value) { setError(pw, pwErr, 'Enter your password.'); ok = false; }
+    else if (pw.value.length < 8) { setError(pw, pwErr, 'Passwords have at least 8 characters.'); ok = false; }
+    else setError(pw, pwErr, '');
+    return ok;
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    status.className = 'status'; status.textContent = '';
+    if (!validate()) {
+      (email.hasAttribute('aria-invalid') ? email : pw).focus();
+      return;
+    }
+    btn.disabled = true; btn.textContent = 'Signing in…';
+    // Demo only: replace this timeout with a real request to your server.
+    setTimeout(function () {
+      btn.disabled = false; btn.textContent = 'Sign in';
+      status.className = 'status ok';
+      status.textContent = 'Signed in. Connect this form to your backend to continue.';
+    }, 900);
+  });
+
+  email.addEventListener('input', function () { if (email.hasAttribute('aria-invalid')) validate(); });
+  pw.addEventListener('input', function () { if (pw.hasAttribute('aria-invalid')) validate(); });
+})();
+</script>
+</body>
+</html>
